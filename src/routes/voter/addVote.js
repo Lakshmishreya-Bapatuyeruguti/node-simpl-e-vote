@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const addVote = require('../../controllers/voter/addVote');
-router.put('/:address', addVote);
+const addVoteValidation = require('../../validation/validators/voter/addVoteValidation');
+router.put('/:address', addVoteValidation, addVote);
 module.exports = router;

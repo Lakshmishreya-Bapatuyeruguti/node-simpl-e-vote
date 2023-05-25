@@ -10,8 +10,6 @@ const addElection = async (req, res) => {
       electionEnded,
       networkName,
     });
-
-    console.log(election, '..............');
     const electionCount = await Elections.count();
     res.status(201).json({
       message: 'Election Details Created successfully',
