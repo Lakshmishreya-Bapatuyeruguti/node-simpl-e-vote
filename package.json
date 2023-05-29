@@ -4,20 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:candidates": "NODE_ENV=test mocha ./test/controllers/candidatesTest.js",
+  "test:elections": "NODE_ENV=test mocha ./test/controllers/electionsTest.js"
+
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chai": "^4.3.7",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
+    "minimatch": "^9.0.1",
+    "mocha": "^10.2.0",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.31.1"
+    "sequelize": "^6.31.1",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.0"
