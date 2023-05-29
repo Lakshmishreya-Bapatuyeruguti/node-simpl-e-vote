@@ -6,6 +6,11 @@ const Elections = sequelize.models.Elections;
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const app = require('../../app');
+const {
+  organizerAddress,
+  organizerRequestBody,
+  messages,
+} = require('../constants/electionConstants');
 require('dotenv').config();
 describe('Election Model Testing', () => {
   let sequelize;
@@ -35,7 +40,7 @@ describe('Election Model Testing', () => {
 
   it('should fetch all elections of network', async () => {
     const token = jwt.sign(
-      { connectedAddess: '0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c' },
+      { connectedAddess: organizerAddress },
       process.env.JWT_SEC_KEY,
     );
     const response = await request(app)
@@ -51,29 +56,23 @@ describe('Election Model Testing', () => {
 
   it('should add election ', async () => {
     const token = jwt.sign(
-      { connectedAddess: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04' },
+      { connectedAddess: organizerAddress },
       process.env.JWT_SEC_KEY,
     );
-    const requestBody = {
-      organizerAddress: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04',
-      electionStarted: false,
-      electionEnded: false,
-      networkName: 'Sepolia',
-    };
     const response = await request(app)
       .post('/api/addElection')
       .set('Authorization', `Bearer ${token}`)
-      .send(requestBody);
+      .send(organizerRequestBody);
     expect(response.status).to.equal(201);
   });
 
   it('should start the election ', async () => {
     const token = jwt.sign(
-      { connectedAddess: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04' },
+      { connectedAddess: organizerAddress },
       process.env.JWT_SEC_KEY,
     );
     const requestBody = {
-      connectedAddress: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04',
+      connectedAddress: organizerAddress,
     };
     const response = await request(app)
       .put('/api/startElection')
@@ -82,16 +81,16 @@ describe('Election Model Testing', () => {
 
     expect(response.status).to.equal(201);
     expect(response.body.election.electionStarted).to.be.true;
-    expect(response.body.message).to.be.equal('Election started successfully');
+    expect(response.body.message).to.be.equal(messages.startedMessage);
   });
 
   it('should end the election ', async () => {
     const token = jwt.sign(
-      { connectedAddess: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04' },
+      { connectedAddess: organizerAddress },
       process.env.JWT_SEC_KEY,
     );
     const requestBody = {
-      connectedAddress: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04',
+      connectedAddress: organizerAddress,
     };
     const response = await request(app)
       .put(`/api/endElection/1`)
@@ -100,6 +99,6 @@ describe('Election Model Testing', () => {
     expect(response.status).to.equal(201);
     expect(response.body.election.electionStarted).to.be.false;
     expect(response.body.election.electionEnded).to.be.true;
-    expect(response.body.message).to.be.equal('Election Ended successfully');
+    expect(response.body.message).to.be.equal(messages.endedMessage);
   });
 });

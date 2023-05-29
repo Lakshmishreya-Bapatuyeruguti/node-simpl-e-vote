@@ -6,6 +6,13 @@ const Candidates = sequelize.models.Candidates;
 const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const app = require('../../app');
+const {
+  organizerAddress,
+  candidateRequestBody,
+  messages,
+  voterAddress,
+} = require('../constants/candidatesConstants');
+const { organizerRequestBody } = require('../constants/electionConstants');
 require('dotenv').config();
 describe('Candidate Model Testing', () => {
   let sequelize;
@@ -36,39 +43,26 @@ describe('Candidate Model Testing', () => {
 
   it('should add candidates ', async () => {
     const token = jwt.sign(
-      { connectedAddess: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04' },
+      { connectedAddess: organizerAddress },
       process.env.JWT_SEC_KEY,
     );
-    const requestBodyOrg = {
-      organizerAddress: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04',
-      electionStarted: false,
-      electionEnded: false,
-      networkName: 'Sepolia',
-    };
+
     await request(app)
       .post('/api/addElection')
       .set('Authorization', `Bearer ${token}`)
-      .send(requestBodyOrg);
+      .send(organizerRequestBody);
 
-    const requestBody = {
-      name: 'Lakshmi',
-      candidateAddress: '0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C',
-      partyName: 'LPS',
-      connectedAddress: '0xCa567E8624aCfc77DD03C7bc7037f85F8D296d04',
-    };
     const response = await request(app)
       .post('/api/addCandidate')
       .set('Authorization', `Bearer ${token}`)
-      .send(requestBody);
+      .send(candidateRequestBody);
     expect(response.status).to.equal(201);
-    expect(response.body.message).to.equal(
-      'Candidate Details Created successfully',
-    );
+    expect(response.body.message).to.equal(messages.candidateMessage);
   });
 
   it('should fetch all candidates of election', async () => {
     const token = jwt.sign(
-      { connectedAddess: '0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c' },
+      { connectedAddess: organizerAddress },
       process.env.JWT_SEC_KEY,
     );
 
@@ -80,7 +74,7 @@ describe('Candidate Model Testing', () => {
 
   it('should add votes ', async () => {
     const token = jwt.sign(
-      { connectedAddess: '0x0A098Eda01Ce92ff4A4CCb7A4fFFb5A43EBC70DC' },
+      { connectedAddess: voterAddress },
       process.env.JWT_SEC_KEY,
     );
 
@@ -89,6 +83,6 @@ describe('Candidate Model Testing', () => {
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).to.equal(201);
     expect(response.body.candidate.votes).to.equal(1);
-    expect(response.body.message).to.equal('Vote Added successfully');
+    expect(response.body.message).to.equal(messages.voterMessage);
   });
 });
