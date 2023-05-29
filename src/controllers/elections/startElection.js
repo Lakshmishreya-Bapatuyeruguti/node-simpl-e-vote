@@ -23,7 +23,9 @@ const startElection = async (req, res) => {
     });
 
     await election.update({ electionStarted: true });
-    res.status(201).json({ message: 'Election started successfully' });
+    res
+      .status(201)
+      .json({ message: 'Election started successfully', election });
   } catch (error) {
     res.status(500).json({ error: 'Internal server error.' });
   }

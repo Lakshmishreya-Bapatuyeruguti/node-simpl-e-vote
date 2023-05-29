@@ -9,7 +9,7 @@ const startElection = async (req, res) => {
     });
 
     await election.update({ electionStarted: false, electionEnded: true });
-    res.status(201).json({ message: 'Election Ended successfully' });
+    res.status(201).json({ message: 'Election Ended successfully', election });
   } catch (error) {
     res.status(422).json({ error });
   }

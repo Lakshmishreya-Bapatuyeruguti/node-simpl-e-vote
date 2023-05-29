@@ -7,7 +7,7 @@ const addVote = async (req, res) => {
       where: { candidateAddress: req.params.address },
     });
     await candidate.update({ votes: candidate.votes + 1 });
-    res.status(201).json({ message: 'Vote Added successfully' });
+    res.status(201).json({ message: 'Vote Added successfully', candidate });
   } catch (error) {
     res.status(501).json({ message: 'INTERNAL SERVER ERROR' });
   }

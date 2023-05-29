@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:candidates": "NODE_ENV=test mocha ./test/controllers/candidatesTest.js",
-  "test:elections": "NODE_ENV=test mocha ./test/controllers/electionsTest.js"
+    "test:candidates": "NODE_ENV=test mocha ./spec/test/candidatesTest.js",
+  "test:elections": "NODE_ENV=test mocha ./spec/test/electionsTest.js"
 
   },
   "keywords": [],
