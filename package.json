@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:candidates": "NODE_ENV=test mocha ./spec/test/candidatesTest.js",
-  "test:elections": "NODE_ENV=test mocha ./spec/test/electionsTest.js"
-
+    "test:candidates": "NODE_ENV=test mocha ./spec/test/candidatesTest.js --exit",
+    "test:elections": "NODE_ENV=test mocha ./spec/test/electionsTest.js --exit",
+    "test": "npm run test:candidates && npm run test:elections"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "husky": "^8.0.3",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "minimatch": "^9.0.1",
@@ -27,5 +28,10 @@
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
   }
 }
