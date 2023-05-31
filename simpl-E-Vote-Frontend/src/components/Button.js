@@ -196,11 +196,25 @@ function Button(props) {
   // Consume token
   async function consumeToken() {
     try {
-      const { signerAddress } = await contractInstance();
-
-      const requestBody = {
-        connectedAccount: signerAddress,
-      };
+      const { signerAddress, signer } = await contractInstance();
+      const token = localStorage.getItem('token');
+      let requestBody;
+      if (!token) {
+        const nonceResponse = await fetch('http://localhost:5000/api/getNonce');
+        const data = await nonceResponse.json();
+        console.log(data.nonce, 'Nonce...');
+        const message = `This nonce is signed using metamask ${data.nonce}`;
+        const signedMessage = await signer.signMessage(message);
+        requestBody = {
+          connectedAccount: signerAddress,
+          signedMessage,
+          message,
+        };
+      } else {
+        requestBody = {
+          connectedAccount: signerAddress,
+        };
+      }
       console.log('Req Body', requestBody);
       const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
@@ -209,7 +223,7 @@ function Button(props) {
         },
         body: JSON.stringify(requestBody),
       });
-      console.log(response.status, 'LOGIN  STATUS');
+      console.log(response);
       if (response.status === 201) {
         const data = await response.json();
         const token = data.token;

@@ -10,7 +10,7 @@ async function contractInstance() {
   const networkId = network.chainId;
   const contract = new ethers.Contract(contractAddress, ABI, signer);
   localStorage.setItem('nid', networkId);
-  return { contract, networkId, signerAddress };
+  return { contract, networkId, signerAddress, signer };
 }
 
 export default contractInstance;

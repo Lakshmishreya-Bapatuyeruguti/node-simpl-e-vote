@@ -10,6 +10,7 @@ const showElectionsRoute = require('./src/routes/elections/showElections');
 const showCandidatesRoute = require('./src/routes/candidates/showCandidates');
 const endElectionRoute = require('./src/routes/elections/endElection');
 const loginRoute = require('./src/routes/auth/auth');
+const nonceRoute = require('./src/routes/auth/nonce');
 const addVoteRoute = require('./src/routes/voter/addVote');
 const jwtAuthMiddleware = require('./src/middlewares/jwtAuthMiddleware');
 const addElectionValidation = require('./src/validation/validators/elections/addElectionValidation');
@@ -25,6 +26,7 @@ app.use(express.json());
 
 app.use(cors());
 
+app.use('/api/getNonce', nonceRoute);
 app.use('/api/login', loginValidation, loginRoute);
 app.use(
   '/api/addElection',

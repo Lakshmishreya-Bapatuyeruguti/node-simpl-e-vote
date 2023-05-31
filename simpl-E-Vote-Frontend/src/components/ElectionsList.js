@@ -60,7 +60,7 @@ function ElectionsList() {
 
   return (
     <div className=" w-5/6 ml-10  ">
-      {isLoading && electionList.length > 0 ? (
+      {isLoading && electionList && electionList.length > 0 ? (
         <Loading />
       ) : (
         <div>
@@ -72,30 +72,31 @@ function ElectionsList() {
               Start Voting in the listed elections that are active
             </p>
           </div>
-          {electionList.map((election, key) => {
-            if (election.organizerAddress !== connectedAccount) {
-              return (
-                <div className="flex w-full">
-                  <img
-                    src={voterpic}
-                    alt="candidatesdemopic"
-                    className=" object-fill  h-20 mt-12  ml-36 "
-                    key={`${key}-img`}
-                  />
-                  <ElectionList
-                    key={key}
-                    id={election.id}
-                    organizer={election.organizerAddress}
-                    started={election.electionStarted}
-                    ended={election.electionEnded}
-                    networkName={election.networkName}
-                    default="false"
-                  />
-                </div>
-              );
-            }
-            return null;
-          })}
+          {electionList &&
+            electionList.map((election, key) => {
+              if (election.organizerAddress !== connectedAccount) {
+                return (
+                  <div className="flex w-full">
+                    <img
+                      src={voterpic}
+                      alt="candidatesdemopic"
+                      className=" object-fill  h-20 mt-12  ml-36 "
+                      key={`${key}-img`}
+                    />
+                    <ElectionList
+                      key={key}
+                      id={election.id}
+                      organizer={election.organizerAddress}
+                      started={election.electionStarted}
+                      ended={election.electionEnded}
+                      networkName={election.networkName}
+                      default="false"
+                    />
+                  </div>
+                );
+              }
+              return null;
+            })}
         </div>
       )}
     </div>
