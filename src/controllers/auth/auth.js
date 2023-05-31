@@ -7,7 +7,7 @@ const loginUser = async (req, res) => {
         { connectedAddess: connectedAccount },
         process.env.JWT_SEC_KEY,
       );
-      res.status(200).json({ message: 'Login success.', token });
+      res.status(201).json({ message: 'Login success.', token });
     } else {
       res.status(422).json({ message: 'Login failed.' });
     }

@@ -1,5 +1,23 @@
 export const ABI = [
   {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_organizer',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_id',
+        type: 'uint256',
+      },
+    ],
+    name: 'addOrganizer',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -45,6 +63,80 @@ export const ABI = [
     type: 'event',
   },
   {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_organizer',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_id',
+        type: 'uint256',
+      },
+    ],
+    name: 'endVoting',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: '_name',
+        type: 'string',
+      },
+      {
+        internalType: 'uint256',
+        name: '_age',
+        type: 'uint256',
+      },
+      {
+        internalType: 'string',
+        name: '_partyName',
+        type: 'string',
+      },
+      {
+        internalType: 'address',
+        name: '_address',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_organizer',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_id',
+        type: 'uint256',
+      },
+    ],
+    name: 'setCandidate',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_organizer',
+        type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: '_id',
+        type: 'uint256',
+      },
+    ],
+    name: 'startVoting',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -67,7 +159,17 @@ export const ABI = [
     inputs: [
       {
         internalType: 'address',
+        name: '_candidateAddress',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
         name: '_organizer',
+        type: 'address',
+      },
+      {
+        internalType: 'address',
+        name: '_voter',
         type: 'address',
       },
       {
@@ -76,7 +178,7 @@ export const ABI = [
         type: 'uint256',
       },
     ],
-    name: 'addOrganizer',
+    name: 'voteTo',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -207,24 +309,6 @@ export const ABI = [
     inputs: [
       {
         internalType: 'address',
-        name: '_organizer',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '_id',
-        type: 'uint256',
-      },
-    ],
-    name: 'endVoting',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
         name: '',
         type: 'address',
       },
@@ -290,90 +374,6 @@ export const ABI = [
       },
     ],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: '_name',
-        type: 'string',
-      },
-      {
-        internalType: 'uint256',
-        name: '_age',
-        type: 'uint256',
-      },
-      {
-        internalType: 'string',
-        name: '_partyName',
-        type: 'string',
-      },
-      {
-        internalType: 'address',
-        name: '_address',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_organizer',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '_id',
-        type: 'uint256',
-      },
-    ],
-    name: 'setCandidate',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_organizer',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '_id',
-        type: 'uint256',
-      },
-    ],
-    name: 'startVoting',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '_candidateAddress',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_organizer',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_voter',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '_id',
-        type: 'uint256',
-      },
-    ],
-    name: 'voteTo',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
 ];

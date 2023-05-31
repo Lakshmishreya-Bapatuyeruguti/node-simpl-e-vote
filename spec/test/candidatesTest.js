@@ -79,7 +79,7 @@ describe('Candidate Model Testing', () => {
     );
 
     const response = await request(app)
-      .put('/api/addVote/0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C')
+      .put('/api/addVote/0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C/1')
       .set('Authorization', `Bearer ${token}`);
     expect(response.status).to.equal(201);
     expect(response.body.candidate.votes).to.equal(1);

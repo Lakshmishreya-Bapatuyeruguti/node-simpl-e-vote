@@ -47,13 +47,14 @@ function VoterButton(props) {
         Authorization: `Bearer ${token}`,
       };
       const response = await fetch(
-        `http://localhost:5000/api/addVote/${props.candidate}`,
+        `http://localhost:5000/api/addVote/${props.candidate}/${orgId}`,
         {
           method: 'PUT',
           headers: requestHeaders,
         },
       );
-      if (response.ok) {
+      console.log(response.status, 'ADD VOTE STATUS');
+      if (response.status === 201) {
         navigateTo();
       } else {
         const errorData = await response.json();
@@ -102,7 +103,8 @@ function VoterButton(props) {
           body: JSON.stringify(requestBody),
         },
       );
-      if (response.ok) {
+      console.log(response.status, 'END ELECTIONS STATUS');
+      if (response.status === 201) {
         navigateTo();
         window.location.reload();
         return;

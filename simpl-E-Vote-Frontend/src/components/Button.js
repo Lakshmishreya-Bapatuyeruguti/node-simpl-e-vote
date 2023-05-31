@@ -45,7 +45,8 @@ function Button(props) {
         headers: requestHeaders,
         body: JSON.stringify(requestBody),
       });
-      if (response.ok) {
+      console.log(response.status, 'ADD ORG STATUS');
+      if (response.status === 201) {
         console.log('Data added');
       } else {
         const errorData = await response.json();
@@ -127,7 +128,8 @@ function Button(props) {
         headers: requestHeaders,
         body: JSON.stringify(requestBody),
       });
-      if (response.ok) {
+      console.log(response.status, 'ADD CANDIDATE STATUS');
+      if (response.status === 201) {
         toast.success('Candidate Added Successfully....!', {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -179,7 +181,8 @@ function Button(props) {
         headers: requestHeaders,
         body: JSON.stringify(requestBody),
       });
-      if (response.ok) {
+      console.log(response.status, 'ELECTION START STATUS');
+      if (response.status === 201) {
         navigateTo();
       } else {
         const errorData = await response.json();
@@ -206,8 +209,8 @@ function Button(props) {
         },
         body: JSON.stringify(requestBody),
       });
-      console.log(response, 'Response................');
-      if (response.ok) {
+      console.log(response.status, 'LOGIN  STATUS');
+      if (response.status === 201) {
         const data = await response.json();
         const token = data.token;
         localStorage.setItem('token', token);

@@ -43,7 +43,8 @@ function ElectionsList() {
         const data = await response.json();
         setElectionList(data.elections);
         console.log('.......', electionList);
-        if (response.ok) {
+        console.log(response.status, 'Show elections STATUS');
+        if (response.status === 201) {
           return setIsLoading(false);
         } else {
           const errorData = await response.json();

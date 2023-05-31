@@ -47,7 +47,8 @@ function OrganizerDefaultScreen() {
         const data = await response.json();
         setElectionList(data.elections);
         console.log('.......', electionList);
-        if (response.ok) {
+        console.log(response.status, 'org show elections STATUS');
+        if (response.status === 201) {
           setIsLoading(false);
           return;
         } else {

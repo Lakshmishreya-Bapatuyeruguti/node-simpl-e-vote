@@ -32,7 +32,8 @@ function CandidatesList(props) {
         const data = await response.json();
         setCandidatesInfoList(data.candidates);
         console.log('.......', data.candidates);
-        if (response.ok) {
+        console.log(response.status, 'Show candidates STATUS');
+        if (response.status === 201) {
           return;
         } else {
           const errorData = await response.json();
