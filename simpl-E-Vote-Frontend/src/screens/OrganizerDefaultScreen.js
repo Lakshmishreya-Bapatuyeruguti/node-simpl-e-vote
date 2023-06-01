@@ -6,9 +6,12 @@ import { AppContext } from '../App';
 import ElectionList from '../components/ElectionList';
 import Loading from '../components/Loading';
 import contractInstance from '../contractInstance';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 function OrganizerDefaultScreen() {
   const { connectedAccount, setConnectedAccount, setIsLoading, isLoading } =
     useContext(AppContext);
+  const navigate = useNavigate();
   const [electionList, setElectionList] = useState([]);
   let organizerFound = false;
   let count = 1;
@@ -56,6 +59,12 @@ function OrganizerDefaultScreen() {
           console.log('Error:', errorData);
         }
       } catch (error) {
+        toast.error('Session Expired. Kindly Login Again', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setTimeout(() => {
+          navigate('/');
+        }, 4000);
         console.log('Err at displayOrganizers()', error);
       }
     }
@@ -65,12 +74,13 @@ function OrganizerDefaultScreen() {
   return (
     <div>
       <Login />
-      {isLoading && electionList.length > 0 ? (
+      {isLoading && electionList && electionList.length > 0 ? (
         <Loading />
       ) : (
         <div className="flex w-full mb-32">
           <div className=" mt-24  w-full ">
-            {electionList.length > 0 &&
+            {electionList &&
+              electionList.length > 0 &&
               electionList.map((election, key) => {
                 if (election.organizerAddress === connectedAccount) {
                   organizerFound = true;

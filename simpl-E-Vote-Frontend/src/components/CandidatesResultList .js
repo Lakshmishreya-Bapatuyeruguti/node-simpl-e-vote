@@ -3,10 +3,12 @@ import CandidateList from './CandidateList';
 import { AppContext } from '../App';
 import votingpic from '../pics/voting.png';
 import contractInstance from '../contractInstance';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 function CandidatesResultList(props) {
   const { candidatesInfoList, currentOrganizer, setCandidatesInfoList } =
     useContext(AppContext);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Showing Results Of Particular Election
     async function showCandidatesResults() {
@@ -42,11 +44,17 @@ function CandidatesResultList(props) {
           console.log('Error:', errorData);
         }
       } catch (error) {
+        toast.error('Session Expired. Kindly Login Again', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setTimeout(() => {
+          navigate('/');
+        }, 4000);
         console.log('Err at showCandidatesDetails()', error);
       }
     }
     showCandidatesResults();
-  }, [setCandidatesInfoList]);
+  }, [navigate, setCandidatesInfoList]);
 
   return (
     <div className=" w-5/6 ml-10 ">
@@ -58,34 +66,35 @@ function CandidatesResultList(props) {
           {props.instruction}
         </p>
       </div>
-      {candidatesInfoList.map((candidate, key) => {
-        let highest = localStorage.getItem('highest');
-        if (candidate.votes >= highest) {
-          localStorage.setItem('highest', candidate.votes);
-        }
-        return (
-          <div className="flex w-full" key={key}>
-            <CandidateList
-              name={candidate.name}
-              address={candidate.candidateAddress}
-              party={candidate.partyName}
-              votes={candidate.votes}
-              results={props.results}
-              organizer={currentOrganizer}
-              isWinner={
-                /* eslint-disable-next-line eqeqeq*/
-                localStorage.getItem('highest') == candidate.votes ? 'Y' : 'N'
-              }
-            />
-            <img
-              src={votingpic}
-              alt="voting pic"
-              className="  object-fill  h-20 ml-40  mt-12 "
-              key={`${key}-img`}
-            />
-          </div>
-        );
-      })}
+      {candidatesInfoList &&
+        candidatesInfoList.map((candidate, key) => {
+          let highest = localStorage.getItem('highest');
+          if (candidate.votes >= highest) {
+            localStorage.setItem('highest', candidate.votes);
+          }
+          return (
+            <div className="flex w-full" key={key}>
+              <CandidateList
+                name={candidate.name}
+                address={candidate.candidateAddress}
+                party={candidate.partyName}
+                votes={candidate.votes}
+                results={props.results}
+                organizer={currentOrganizer}
+                isWinner={
+                  /* eslint-disable-next-line eqeqeq*/
+                  localStorage.getItem('highest') == candidate.votes ? 'Y' : 'N'
+                }
+              />
+              <img
+                src={votingpic}
+                alt="voting pic"
+                className="  object-fill  h-20 ml-40  mt-12 "
+                key={`${key}-img`}
+              />
+            </div>
+          );
+        })}
     </div>
   );
 }

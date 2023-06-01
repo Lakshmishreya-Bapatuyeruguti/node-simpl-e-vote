@@ -10,7 +10,9 @@ const loginUser = async (req, res) => {
       const token = jwt.sign(
         { connectedAddess: connectedAccount },
         process.env.JWT_SEC_KEY,
+        { expiresIn: '1d' },
       );
+
       res.status(201).json({ message: 'Login success.', token });
     } else {
       res.status(422).json({ message: 'Login failed.' });

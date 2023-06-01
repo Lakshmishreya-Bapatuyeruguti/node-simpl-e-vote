@@ -3,10 +3,12 @@ import CandidateList from './CandidateList';
 import { AppContext } from '../App';
 import votingpic from '../pics/voting.png';
 import contractInstance from '../contractInstance';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 function CandidatesList(props) {
   const { candidatesInfoList, currentOrganizer, setCandidatesInfoList } =
     useContext(AppContext);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Displaying Candidates of particular election
     async function showCandidatesDetails() {
@@ -40,11 +42,17 @@ function CandidatesList(props) {
           console.log('Error:', errorData);
         }
       } catch (error) {
+        toast.error('Session Expired. Kindly Login Again', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setTimeout(() => {
+          navigate('/');
+        }, 4000);
         console.log('Err at showCandidatesDetails()', error);
       }
     }
     showCandidatesDetails();
-  }, [setCandidatesInfoList]);
+  }, [navigate, setCandidatesInfoList]);
 
   return (
     <div className=" w-5/6 ml-10 ">
@@ -56,25 +64,26 @@ function CandidatesList(props) {
           {props.instruction}
         </p>
       </div>
-      {candidatesInfoList.map((candidate, key) => {
-        return (
-          <div className="flex w-full" key={key}>
-            <CandidateList
-              name={candidate.name}
-              address={candidate.candidateAddress}
-              party={candidate.partyName}
-              votes={candidate.votes}
-              results={props.results}
-              organizer={currentOrganizer}
-            />
-            <img
-              src={votingpic}
-              alt="voting pic"
-              className="  object-fill  h-20 ml-40  mt-12 "
-            />
-          </div>
-        );
-      })}
+      {candidatesInfoList &&
+        candidatesInfoList.map((candidate, key) => {
+          return (
+            <div className="flex w-full" key={key}>
+              <CandidateList
+                name={candidate.name}
+                address={candidate.candidateAddress}
+                party={candidate.partyName}
+                votes={candidate.votes}
+                results={props.results}
+                organizer={currentOrganizer}
+              />
+              <img
+                src={votingpic}
+                alt="voting pic"
+                className="  object-fill  h-20 ml-40  mt-12 "
+              />
+            </div>
+          );
+        })}
     </div>
   );
 }

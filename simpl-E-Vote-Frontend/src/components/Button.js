@@ -4,6 +4,7 @@ import { AppContext } from '../App';
 import contractInstance from '../contractInstance';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import jwtDecode from 'jwt-decode';
 function Button(props) {
   const {
     connectedAccount,
@@ -199,7 +200,7 @@ function Button(props) {
       const { signerAddress, signer } = await contractInstance();
       const token = localStorage.getItem('token');
       let requestBody;
-      if (!token) {
+      if (!token || isTokenExpired(token)) {
         const nonceResponse = await fetch('http://localhost:5000/api/getNonce');
         const data = await nonceResponse.json();
         console.log(data.nonce, 'Nonce...');
@@ -229,7 +230,6 @@ function Button(props) {
         const token = data.token;
         localStorage.setItem('token', token);
       } else {
-        // Handle error response
         const errorData = await response.json();
         console.log('Error:', errorData);
       }
@@ -237,7 +237,11 @@ function Button(props) {
       console.log('Error at consumeToken():', error);
     }
   }
-
+  function isTokenExpired(token) {
+    const decodedToken = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    return decodedToken.exp < currentTime;
+  }
   return (
     <>
       <ToastContainer />

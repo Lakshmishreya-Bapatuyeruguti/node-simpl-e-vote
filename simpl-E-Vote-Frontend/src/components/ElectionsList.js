@@ -4,9 +4,12 @@ import { AppContext } from '../App';
 import voterpic from '../pics/voterpic.png';
 import Loading from './Loading';
 import contractInstance from '../contractInstance';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 function ElectionsList() {
   const { connectedAccount, setIsLoading, setConnectedAccount } =
     useContext(AppContext);
+  const navigate = useNavigate();
   const { isLoading } = useContext(AppContext);
   const [electionList, setElectionList] = useState([]);
   useEffect(() => {
@@ -51,6 +54,13 @@ function ElectionsList() {
           console.log('Error:', errorData);
         }
       } catch (error) {
+        toast.error('Session Expired. Kindly Login Again', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setTimeout(() => {
+          navigate('/');
+        }, 4000);
+
         console.log('Err at displayOrganizers()', error);
       }
     }
